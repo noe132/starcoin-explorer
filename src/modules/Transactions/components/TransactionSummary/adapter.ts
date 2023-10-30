@@ -8,20 +8,14 @@ import Index from './index';
 
 const { selector: currentSelector, actions } = store;
 
-const loadingSelector = createLoadingSelector([types.GET_TRANSACTION_LIST]);
-
 const selector = createSelector(
   currentSelector,
-  loadingSelector,
-  (current, loading) => ({
-    transactionList: current.transactionList,
+  (current) => ({
     selectedTransactions: current.selectedTransactions,
-    isLoadingMore: current.isLoadingMore,
-    loading,
   }),
 );
 
 export default connect(selector, {
-  getTransactionList: actions.getTransactionList,
-  clearSelectedTransation: actions.clearSelectedTransation,
+  addSelectedTransation: actions.addSelectedTransation,
+  removeSelectedTransation: actions.removeSelectedTransation,
 })(Index as any) as any;

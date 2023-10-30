@@ -9,6 +9,7 @@ const initState = {
   addressTransactions: null,
   blockTransactions: null,
   isLoadingMore: false,
+  selectedTransactions: [],
 };
 
 export default function reducers(state: any = initState, action: any) {
@@ -50,6 +51,12 @@ export default function reducers(state: any = initState, action: any) {
     }
     case types.SET_BLOCK_TRANSACTIONS: {
       return { ...state, blockTransactions: action.payload };
+    }
+    case types.ADD_SELECTED_TRANSACTION: {
+      return { ...state, selectedTransactions: [...state.selectedTransactions, action.payload] };
+    }
+    case types.REMOVE_SELECTED_TRANSACTION: {
+      return { ...state, selectedTransactions: state.selectedTransactions.filter((v: any) => v.transaction_hash !== action.payload.transaction_hash) };
     }
     default:
       return state;

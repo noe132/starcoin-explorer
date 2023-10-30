@@ -132,3 +132,22 @@ export function getPendingTransactionListInDelay(payload: any) {
     payload,
   };
 }
+
+export function addSelectedTransation(payload: any) {
+  return {
+    type: types.ADD_SELECTED_TRANSACTION,
+    payload,
+  };
+}
+
+export function removeSelectedTransation(payload: any) {
+  return {
+    type: types.REMOVE_SELECTED_TRANSACTION,
+    payload,
+  };
+}
+export function clearSelectedTransation() {
+  return {
+    type: types.CLEAR_SELECTED_TRANSACTION,
+  };
+}

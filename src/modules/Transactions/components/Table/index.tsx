@@ -1,5 +1,5 @@
 import React from 'react';
-import TransactionSummary from '../TransactionSummary';
+import TransactionSummary from '../TransactionSummary/adapter';
 
 interface ExternalProps {
   transactions: any,

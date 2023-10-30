@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { getNetwork } from '@/utils/helper';
 import { withStyles, createStyles } from '@mui/styles';
+import { Checkbox } from '@mui/material';
 import { encoding } from '@starcoin/starcoin';
 import CommonLink from '@/common/Link';
 import CommonTime from '@/common/Time';
@@ -48,6 +49,9 @@ const useStyles = (theme: any) =>
 
 interface ExternalProps {
   transaction: any;
+  selectedTransactions: any
+  addSelectedTransation: any
+  removeSelectedTransation: any
   className?: string;
 }
 
@@ -59,8 +63,22 @@ interface Props extends ExternalProps, InternalProps {
 }
 
 class TransactionSummary extends PureComponent<Props> {
+  toggleSelect = (source: any, selected: boolean) => {
+    const { addSelectedTransation, removeSelectedTransation } = this.props;
+    if (selected) {
+      removeSelectedTransation(source)
+    } else {
+      addSelectedTransation(source)
+    }
+  }
+
   render() {
-    const { transaction, className, classes } = this.props;
+    const {
+      transaction,
+      className,
+      classes,
+      selectedTransactions,
+    } = this.props;
     const isTransaction = !!transaction;
     const source = isTransaction ? transaction : transaction;
     let payloadInHex = '';
@@ -74,6 +92,7 @@ class TransactionSummary extends PureComponent<Props> {
       ? encoding.decodeTransactionPayload(payloadInHex)
       : [];
     const type = Object.keys(txnPayload)[0];
+    const selected = selectedTransactions.some((v: any) => v.transaction_hash === source.transaction_hash)
     return (
       <div className={classNames(classes.root, className)}>
         {type}&nbsp;
@@ -91,6 +110,12 @@ class TransactionSummary extends PureComponent<Props> {
                 ? source.timestamp
                 : source.raw_txn.expiration_timestamp_secs * 1000
             }
+          />
+        </div>
+        <div>
+          <Checkbox
+            checked={selected}
+            onClick={() => this.toggleSelect(source, selected)}
           />
         </div>
       </div>
